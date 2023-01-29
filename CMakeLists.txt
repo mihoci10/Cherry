@@ -4,6 +4,8 @@ project(Cherry VERSION 0.1.0
              DESCRIPTION "Multipurpose, platform agnostic rendering API"
              LANGUAGES CXX)
 
+include(FetchContent)
+
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -39,7 +41,13 @@ function(defineBoolVariable varName)
   endif()
 endfunction()
 
+function(collectSources varName dir)
+  file(GLOB SOURCES "${dir}/*.c" "${dir}/*.cpp" "${dir}/*.h" "${dir}/*.hpp")
+  set("${varName}" "${SOURCES}" PARENT_SCOPE)
+endfunction()
+
 defineBoolVariable(CHERRY_PLATFORM_WIN)
 defineBoolVariable(CHERRY_BUILD_SHARED)
 
 add_subdirectory(CherryAPI)
+add_subdirectory(CherryExample)
