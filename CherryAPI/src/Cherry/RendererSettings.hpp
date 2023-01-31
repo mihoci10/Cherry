@@ -8,7 +8,7 @@ namespace Cherry {
 
 	class RendererSettings {
 	public:
-		RendererPlatform platform;
+		const RendererPlatform platform = RendererPlatform::None;
 	};
 
 }

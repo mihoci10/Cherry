@@ -11,6 +11,17 @@ set(BUILD_STATIC_LIBS ON)
 FetchContent_MakeAvailable(glm)
 set_target_properties(glm_static PROPERTIES FOLDER "Dependencies")
 
+FetchContent_Declare(
+    glfw
+    GIT_REPOSITORY https://github.com/glfw/glfw.git
+    GIT_TAG        8f470597d625ae28758c16b4293dd42d63e8a83a
+)
+set(GLFW_LIBRARY_TYPE "STATIC")
+set(GLFW_BUILD_DOCS OFF)
+
+FetchContent_MakeAvailable(glfw)
+set_target_properties(glfw PROPERTIES FOLDER "Dependencies")
+
 if(${CHERRY_ENABLE_OPENGL})
     FetchContent_Declare(
         glew
@@ -41,7 +52,7 @@ target_include_directories(CherryAPI PUBLIC src)
 
 target_precompile_headers(CherryAPI PUBLIC src/cherrypch.h)
 
-target_link_libraries(CherryAPI PUBLIC glm ${OPENGL_LIB})
+target_link_libraries(CherryAPI PUBLIC glm glfw ${OPENGL_LIB})
 message(STATUS "Compiling CHERRY API with: ${OPENGL_LIB}")
 
 source_group("Cherry" FILES ${PROJECT_SRC})
