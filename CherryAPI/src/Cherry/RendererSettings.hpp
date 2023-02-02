@@ -9,6 +9,9 @@ namespace Cherry {
 	class RendererSettings {
 	public:
 		const RendererPlatform platform = RendererPlatform::None;
+		const bool debugMode = false;
+
+		std::function<void(std::string_view)> logCallback = nullptr;
 	};
 
 }
