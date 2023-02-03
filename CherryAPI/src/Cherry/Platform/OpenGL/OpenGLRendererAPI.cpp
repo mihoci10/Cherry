@@ -9,7 +9,7 @@ namespace Cherry {
 
 	void OpenGLRendererAPI::Init()
 	{
-		if (m_Settings->debugMode) {
+		if (RendererAPI::GetSettings()->debugMode) {
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(OpenGLMessageCallback, this);
@@ -22,6 +22,11 @@ namespace Cherry {
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_LINE_SMOOTH);
+	}
+
+	void OpenGLRendererAPI::Deinit()
+	{
+		RendererAPI::Deinit();
 	}
 
 	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
