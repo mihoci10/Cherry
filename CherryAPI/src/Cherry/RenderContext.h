@@ -10,7 +10,7 @@ namespace Cherry {
 		RenderContext() = delete;
 		virtual ~RenderContext() = default;
 
-		std::shared_ptr<RenderContext> Create(std::shared_ptr<SDL_Window> windowHandle);
+		static std::shared_ptr<RenderContext> Create(std::shared_ptr<SDL_Window> windowHandle);
 
 		virtual void Init() = 0;
 

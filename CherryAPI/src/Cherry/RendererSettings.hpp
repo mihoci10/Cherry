@@ -8,6 +8,9 @@ namespace Cherry {
 
 	class RendererSettings {
 	public:
+		RendererSettings() = delete;
+		RendererSettings(RendererPlatform platform, bool debugMode) : platform(platform), debugMode(debugMode) {}
+
 		const RendererPlatform platform = RendererPlatform::None;
 		const bool debugMode = false;
 

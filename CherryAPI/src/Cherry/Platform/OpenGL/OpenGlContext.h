@@ -10,6 +10,9 @@ namespace Cherry {
 		OpenGLContext(std::shared_ptr<SDL_Window> windowHandle) : RenderContext(windowHandle) {}
 
 		virtual void Init();
+
+	private:
+		SDL_GLContext m_ctx = nullptr;
 	};
 
 }
