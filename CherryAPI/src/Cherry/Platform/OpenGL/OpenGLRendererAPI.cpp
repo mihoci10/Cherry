@@ -1,14 +1,18 @@
 #include "OpenGLRendererAPI.h"
 
 #include <GL/glew.h>
+#include <SDL.h>
 
-void OpenGLMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
+void GLAPIENTRY OpenGLMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity,
 							GLsizei length, const GLchar* message, const void* userParam);
 
 namespace Cherry {
 
 	void OpenGLRendererAPI::Init()
 	{
+		GLenum res;
+		res = glewInit();
+
 		if (RendererAPI::GetSettings()->debugMode) {
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -45,7 +49,7 @@ namespace Cherry {
 	}
 }
 
-void OpenGLMessageCallback(
+void GLAPIENTRY OpenGLMessageCallback(
 	GLenum source,
 	GLenum type,
 	GLuint id,

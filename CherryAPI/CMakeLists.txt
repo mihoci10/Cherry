@@ -1,5 +1,6 @@
 collectSources(PROJECT_SRC src/Cherry)
 collectSources(PROJECT_SRC_PLATFORM_OPENGL src/Cherry/Platform/OpenGL)
+collectSources(PROJECT_SRC_UTILS src/Cherry/Utils)
 
 FetchContent_Declare(
   glm
@@ -44,7 +45,8 @@ endif()
 
 add_library(CherryAPI ${LIB_TYPE} 
 ${PROJECT_SRC}
-${PROJECT_SRC_PLATFORM_OPENGL})
+${PROJECT_SRC_PLATFORM_OPENGL}
+${PROJECT_SRC_UTILS})
 
 target_include_directories(CherryAPI PUBLIC src)
 
@@ -55,3 +57,4 @@ message(STATUS "Compiling CHERRY API with: ${OPENGL_LIB}")
 
 source_group("Cherry" FILES ${PROJECT_SRC})
 source_group("Cherry/Platform/OpenGL" FILES ${PROJECT_SRC_PLATFORM_OPENGL})
+source_group("Cherry/Utils" FILES ${PROJECT_SRC_UTILS})
