@@ -14,6 +14,9 @@ namespace Cherry {
 
 		virtual void SetClearColor(const glm::vec4& color) override;
 		virtual void Clear() override;
+
+	private:
+		SDL_GLContext m_ctx;
 	};
 
 }

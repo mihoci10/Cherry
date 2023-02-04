@@ -11,6 +11,8 @@ namespace Cherry {
 	void OpenGLRendererAPI::Init()
 	{
 		GLenum res;
+
+		m_ctx = SDL_GL_CreateContext(RendererAPI::GetWindowHnd().get());
 		res = glewInit();
 
 		if (RendererAPI::GetSettings()->debugMode) {
@@ -30,6 +32,7 @@ namespace Cherry {
 
 	void OpenGLRendererAPI::Deinit()
 	{
+		SDL_GL_DeleteContext(RendererAPI::GetWindowHnd().get());
 		RendererAPI::Deinit();
 	}
 
