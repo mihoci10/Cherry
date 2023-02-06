@@ -16,7 +16,7 @@ namespace Cherry {
 		virtual void Clear() override;
 
 	private:
-		SDL_GLContext m_ctx;
+		SDL_GLContext m_ctx = nullptr;
 	};
 
 }

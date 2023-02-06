@@ -9,6 +9,7 @@ int main() {
 		512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
 
 	auto settings = std::make_shared<Cherry::RendererSettings>(Cherry::RendererPlatform::OpenGL, true);
+	settings->logCallback = [](std::string_view msg) -> void {printf("%s\n", msg.data()); };
 	auto api = Cherry::RendererAPI::Create(wnd, settings);
 
 	api->Init();
