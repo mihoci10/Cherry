@@ -32,7 +32,7 @@ namespace Cherry {
 
 	void OpenGLRendererAPI::Deinit()
 	{
-		SDL_GL_DeleteContext(RendererAPI::GetWindowHnd().get());
+		SDL_GL_DeleteContext(m_ctx);
 		RendererAPI::Deinit();
 	}
 

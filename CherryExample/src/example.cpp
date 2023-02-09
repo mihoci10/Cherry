@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <Cherry/RendererAPI.h>
+#include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
 int main() {
 
@@ -13,5 +14,8 @@ int main() {
 	auto api = Cherry::RendererAPI::Create(wnd, settings);
 
 	api->Init();
+
+	auto buf = Cherry::VertexBuffer::Create(nullptr, 2, 10);
+
 	return 0;
 }

@@ -13,9 +13,3 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <queue>
-
-#ifdef CHERRY_PLATFORM_WIN
-    #include <Windows.h>
-    #include <windowsx.h>
-    #include <Wingdi.h>
-#endif
