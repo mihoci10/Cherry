@@ -1,5 +1,7 @@
 #include "OpenGLRendererAPI.h"
 
+#include <Cherry/Utils/Log.hpp>
+
 #include <GL/glew.h>
 #include <SDL.h>
 
@@ -61,8 +63,8 @@ void GLAPIENTRY OpenGLMessageCallback(
 	const GLchar* message,
 	const void* userParam)
 {
-	Cherry::OpenGLRendererAPI* renderer = (Cherry::OpenGLRendererAPI*)userParam;
+	Cherry::OpenGLRendererAPI* renderer = (Cherry::OpenGLRendererAPI*) userParam;
 
-	if (renderer->GetSettings()->logCallback)
-		renderer->GetSettings()->logCallback(std::string_view(message, length));
+	CHERRY_DISPATCH_LOG(severity, std::string_view(message, length));
+	
 }

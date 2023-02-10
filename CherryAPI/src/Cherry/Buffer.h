@@ -12,7 +12,7 @@ namespace Cherry{
 
         uint8_t GetStride() const { return m_Stride; }
         size_t GetCount() const { return m_Count; }
-        size_t GetSize() const { return m_Stride * m_Count; }
+        size_t GetSize() const { return m_Size; }
 
     protected:
         Buffer(uint8_t stride, size_t size) : m_Stride(stride), m_Count(size / stride), m_Size(size) {};

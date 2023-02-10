@@ -14,7 +14,11 @@ namespace Cherry {
 		const RendererPlatform platform = RendererPlatform::None;
 		const bool debugMode = false;
 
-		std::function<void(std::string_view)> logCallback = nullptr;
+		std::function<void(
+			uint8_t severity, 
+			std::string_view description, 
+			std::string_view source)>
+			logCallback = nullptr;
 	};
 
 }
