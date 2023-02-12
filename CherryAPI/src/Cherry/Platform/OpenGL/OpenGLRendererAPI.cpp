@@ -65,6 +65,5 @@ void GLAPIENTRY OpenGLMessageCallback(
 {
 	Cherry::OpenGLRendererAPI* renderer = (Cherry::OpenGLRendererAPI*) userParam;
 
-	CHERRY_DISPATCH_LOG(severity, std::string_view(message, length));
-	
+	CHERRY_DISPATCH_LOG_LOC(severity, std::string_view(message, length), Cherry::StringFormatter::format("(src: %d type: %d id: %d)", source, type, id));
 }

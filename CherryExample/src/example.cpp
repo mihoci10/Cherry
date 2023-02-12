@@ -15,6 +15,8 @@ int main() {
 
 	api->Init();
 
+	glEnable(0);
+
 	auto buf = Cherry::VertexBuffer::Create(nullptr, 2, 10);
 
 	return 0;
