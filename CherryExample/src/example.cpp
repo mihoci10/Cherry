@@ -10,14 +10,18 @@ int main() {
 		512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
 
 	auto settings = std::make_shared<Cherry::RendererSettings>(Cherry::RendererPlatform::OpenGL, true);
-	settings->logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("%d\t%s\t%s\n", severity, msg.data(), source.data()); };
-	auto api = Cherry::RendererAPI::Create(wnd, settings);
-
-	api->Init();
+	settings->logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("[LOG %d]\n  %s\n  %s\n", severity, msg.data(), source.data()); };
+	
+	try {
+		auto api = Cherry::RendererAPI::Create(wnd, settings);
+		api->Init();
+	}
+	catch (std::exception e) {
+		printf("%s", e.what());
+	}
+	auto buf = Cherry::VertexBuffer::Create(nullptr, 2, 10);
 
 	glEnable(0);
-
-	auto buf = Cherry::VertexBuffer::Create(nullptr, 2, 10);
 
 	return 0;
 }

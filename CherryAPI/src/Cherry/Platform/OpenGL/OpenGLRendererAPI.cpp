@@ -13,9 +13,21 @@ namespace Cherry {
 	void OpenGLRendererAPI::Init()
 	{
 		GLenum res;
+		const char* errMsg;
 
+		SDL_ClearError();
 		m_ctx = SDL_GL_CreateContext(RendererAPI::GetWindowHnd().get());
+		if (m_ctx == NULL) {
+			errMsg = SDL_GetError();
+			CHERRY_THROW("SDL could not acquire OpenGL context! (Reason: %s)", errMsg);
+			return;
+		}
+
 		res = glewInit();
+		if (res != GLEW_OK) {
+			errMsg = (const char*) glewGetErrorString(res);
+			CHERRY_THROW("GLEW could not be initialized! (Reason: %s)", errMsg);
+		}
 
 		if (RendererAPI::GetSettings()->debugMode) {
 			glEnable(GL_DEBUG_OUTPUT);
