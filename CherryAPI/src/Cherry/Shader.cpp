@@ -2,6 +2,7 @@
 
 #include <Cherry/RendererAPI.h>
 #include <Cherry/Platform/OpenGL/OpenGLShader.h>
+#include <Cherry/Utils/Log.hpp>
 
 namespace Cherry{
 
@@ -10,13 +11,12 @@ namespace Cherry{
         switch (RendererAPI::GetSettings()->platform)
         {
         case RendererPlatform::None:
-            break;
+            CHERRY_THROW("Shader is not supported in headless mode!");
         case RendererPlatform::OpenGL:
             return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
         case RendererPlatform::Vulkan:
-            break;
+            CHERRY_THROW("Shader is not supported for Vulkan!");
         }
-        return nullptr;
     }
 
 }
