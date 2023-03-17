@@ -15,6 +15,7 @@ set(CHERRY_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/out CACHE STRING "Set the output 
 set(CHERRY_BUILD_SHARED False CACHE BOOL "Build Cherry API as a dynamic library")
 
 set(CHERRY_ENABLE_OPENGL True CACHE BOOL "Build the OpenGL platform")
+set(CHERRY_ENABLE_IMGUI False CACHE BOOL "Include the ImGui functionality")
 
 # set output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CHERRY_OUT_DIR}/archive)

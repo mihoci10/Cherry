@@ -3,6 +3,7 @@
 #include <SDL.h>
 
 #include <Cherry/RendererAPI.h>
+#include <Cherry/GUI/ImGuiAPI.h>
 #include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
 #include <Cherry/Shader.h>

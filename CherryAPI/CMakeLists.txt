@@ -37,6 +37,31 @@ if(${CHERRY_ENABLE_OPENGL})
     set(OPENGL_LIB libglew_static)
 endif()
 
+if(${CHERRY_ENABLE_IMGUI})
+    FetchContent_Declare(
+        imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG        6b3435a2db4d28cb4b71de8ef06b097df2d840f7
+    )
+    FetchContent_MakeAvailable(imgui)
+
+    collectSources(IMGUI_SRC src/Cherry/GUI)
+    source_group("Cherry/GUI" FILES ${IMGUI_SRC})
+
+    collectSources(IMGUI_SRC_INTERNAL ${imgui_SOURCE_DIR})
+    source_group("Cherry/GUI/Internal" FILES ${IMGUI_SRC_INTERNAL})
+
+    set(IMGUI_SRC_BACKENDS 
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl3.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl3.h
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.h
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3_loader.h)
+    source_group("Cherry/GUI/Backends" FILES ${IMGUI_SRC_BACKENDS})
+    
+    set(IMGUI_SRC ${IMGUI_SRC} ${IMGUI_SRC_BACKENDS} ${IMGUI_SRC_INTERNAL})
+endif()
+
 if(${CHERRY_BUILD_SHARED})
     set(LIB_TYPE "SHARED")
 else()
@@ -46,9 +71,11 @@ endif()
 add_library(CherryAPI ${LIB_TYPE} 
 ${PROJECT_SRC}
 ${PROJECT_SRC_PLATFORM_OPENGL}
-${PROJECT_SRC_UTILS})
+${PROJECT_SRC_UTILS}
+${IMGUI_SRC})
 
 target_include_directories(CherryAPI PUBLIC src)
+target_include_directories(CherryAPI PUBLIC ${imgui_SOURCE_DIR})
 
 target_precompile_headers(CherryAPI PUBLIC src/cherrypch.h)
 
