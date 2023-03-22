@@ -60,6 +60,10 @@ if(${CHERRY_ENABLE_IMGUI})
     source_group("Cherry/GUI/Backends" FILES ${IMGUI_SRC_BACKENDS})
     
     set(IMGUI_SRC ${IMGUI_SRC} ${IMGUI_SRC_BACKENDS} ${IMGUI_SRC_INTERNAL})
+
+    if(${CHERRY_ENABLE_OPENGL})
+        collectSources(PROJECT_SRC_PLATFORM_OPENGL_GUI src/Cherry/Platform/OpenGL/GUI)
+    endif()
 endif()
 
 if(${CHERRY_BUILD_SHARED})
@@ -71,6 +75,7 @@ endif()
 add_library(CherryAPI ${LIB_TYPE} 
 ${PROJECT_SRC}
 ${PROJECT_SRC_PLATFORM_OPENGL}
+${PROJECT_SRC_PLATFORM_OPENGL_GUI}
 ${PROJECT_SRC_UTILS}
 ${IMGUI_SRC})
 
@@ -84,4 +89,5 @@ message(STATUS "Compiling CHERRY API with: ${OPENGL_LIB}")
 
 source_group("Cherry" FILES ${PROJECT_SRC})
 source_group("Cherry/Platform/OpenGL" FILES ${PROJECT_SRC_PLATFORM_OPENGL})
+source_group("Cherry/Platform/OpenGL/GUI" FILES ${PROJECT_SRC_PLATFORM_OPENGL_GUI})
 source_group("Cherry/Utils" FILES ${PROJECT_SRC_UTILS})

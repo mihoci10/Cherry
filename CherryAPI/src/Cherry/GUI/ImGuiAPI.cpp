@@ -2,6 +2,7 @@
 
 #include <Cherry/Utils/Log.hpp>
 #include <Cherry/RendererAPI.h>
+#include <Cherry/Platform/OpenGL/GUI/OpenGLImGuiAPI.h>
 
 #include "backends/imgui_impl_sdl3.h"
 
@@ -13,6 +14,11 @@ namespace Cherry::GUI {
     {
     }
 
+    void ImGuiAPI::Init()
+    {
+        ImGui::CreateContext();
+    }
+
     void ImGuiAPI::Deinit()
     {
         ImGui_ImplSDL3_Shutdown();
@@ -22,9 +28,15 @@ namespace Cherry::GUI {
     void ImGuiAPI::NewFrame()
     {
         ImGui_ImplSDL3_NewFrame();
+        ImGui::NewFrame();
     }
 
-    std::unique_ptr<ImGuiAPI> ImGuiAPI::Create(std::shared_ptr<SDL_Window> windowHandle)
+    void ImGuiAPI::DrawFrame()
+    {
+        ImGui::Render();
+    }
+
+    std::unique_ptr<ImGuiAPI> ImGuiAPI::Create()
     {
         if (s_Initialized)
             CHERRY_THROW("Cannot initialize ImGuiAPI twice!");
@@ -37,7 +49,7 @@ namespace Cherry::GUI {
             CHERRY_THROW("Headless mode is not supported by ImGui API!");
             break;
         case Cherry::RendererPlatform::OpenGL:
-            //result = std::make_unique<OpenGLImGuiAPI>();
+            result = std::make_unique<OpenGLImGuiAPI>();
             break;
         case Cherry::RendererPlatform::Vulkan:
             CHERRY_THROW("Vulcan platform is not supported by ImGui API!");

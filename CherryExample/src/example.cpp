@@ -26,6 +26,9 @@ int main() {
 		printf("%s", e.what());
 	}
 
+	std::unique_ptr<Cherry::GUI::ImGuiAPI> imGuiApi = Cherry::GUI::ImGuiAPI::Create();
+	imGuiApi->Init();
+
 	api->SetViewport(0, 0, 512, 512);
 	api->SetClearColor(glm::vec4(0.5));
 
@@ -62,11 +65,19 @@ int main() {
 	while (true) {
 		while (SDL_PollEvent(&ev) != 0) {};
 
+		imGuiApi->NewFrame();
 		api->Clear();
 
 		shader->Bind();
 		buf->Bind();
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		// render your GUI
+		ImGui::Begin("Demo window");
+		ImGui::Button("Hello!");
+		ImGui::End();
+
+		imGuiApi->DrawFrame();
 
 		SDL_GL_SwapWindow(wnd.get());
 	}

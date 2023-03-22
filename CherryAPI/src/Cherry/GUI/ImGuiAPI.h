@@ -9,12 +9,12 @@ namespace Cherry::GUI{
     public:
         virtual ~ImGuiAPI() = default;
 
-        virtual void Init() = 0;
+        virtual void Init();
         virtual void Deinit();
         virtual void NewFrame();
-        virtual void DrawFrame() = 0;
+        virtual void DrawFrame();
 
-        static std::unique_ptr<ImGuiAPI> Create(std::shared_ptr<SDL_Window> windowHandle);
+        static std::unique_ptr<ImGuiAPI> Create();
     protected:
         ImGuiAPI();
     private:
