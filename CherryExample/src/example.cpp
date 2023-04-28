@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <SDL.h>
 
-#include <Cherry/RendererAPI.h>
+#include <Cherry/Renderer.h>
 #include <Cherry/GUI/ImGuiAPI.h>
 #include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
@@ -17,10 +17,9 @@ int main() {
 	auto settings = std::make_shared<Cherry::RendererSettings>(Cherry::RendererPlatform::OpenGL, true);
 	settings->logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("[LOG %d]\n  %s\n  %s\n", severity, msg.data(), source.data()); };
 
-	std::unique_ptr<Cherry::RendererAPI> api;
 	try {
-		api = Cherry::RendererAPI::Create(wnd, settings);
-		api->Init();
+		Cherry::Renderer::Create(wnd, settings);
+		Cherry::Renderer::Init();
 	}
 	catch (std::exception e) {
 		printf("%s", e.what());
@@ -29,8 +28,8 @@ int main() {
 	std::unique_ptr<Cherry::GUI::ImGuiAPI> imGuiApi = Cherry::GUI::ImGuiAPI::Create();
 	imGuiApi->Init();
 
-	api->SetViewport(0, 0, 512, 512);
-	api->SetClearColor(glm::vec4(0.5));
+	Cherry::Renderer::SetViewport(0, 0, 512, 512);
+	Cherry::Renderer::SetClearColor(glm::vec4(0.5));
 
 	std::array<float, 9> vertices{
 	-0.5f, -0.5f, 0.0f,
@@ -66,11 +65,11 @@ int main() {
 		while (SDL_PollEvent(&ev) != 0) {};
 
 		imGuiApi->NewFrame();
-		api->Clear();
+		Cherry::Renderer::Clear();
 
 		shader->Bind();
 		buf->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		Cherry::Renderer::DrawTriangles(buf);
 
 		// render your GUI
 		ImGui::Begin("Demo window");

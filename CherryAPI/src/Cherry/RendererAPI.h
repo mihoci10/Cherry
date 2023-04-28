@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include <Cherry/RendererSettings.hpp>
+#include <Cherry/Buffer.h>
 
 namespace Cherry{
 
@@ -15,6 +16,7 @@ namespace Cherry{
         virtual void Deinit();
         virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
         virtual void SetClearColor(const glm::vec4& color) = 0;
+        virtual void DrawTriangles(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
         virtual void Clear() = 0;
 
         static const auto GetWindowHnd() { return s_WndHnd; }
