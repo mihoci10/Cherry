@@ -62,7 +62,7 @@ int main() {
 	auto shader = Cherry::Shader::Create("Basic", vertexShader, fragShader);
 	SDL_Event ev;
 	while (true) {
-		while (SDL_PollEvent(&ev) != 0) {};
+		while (SDL_PollEvent(&ev) != 0) { imGuiApi->OnEvent(&ev); };
 
 		imGuiApi->NewFrame();
 		Cherry::Renderer::Clear();
