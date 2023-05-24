@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include <Cherry/Utils/Log.hpp>
+
 namespace Cherry {
 
 	std::unique_ptr<RendererAPI> Renderer::s_RendererAPI = nullptr;

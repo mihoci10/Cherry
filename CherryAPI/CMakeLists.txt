@@ -46,9 +46,11 @@ if(${CHERRY_ENABLE_IMGUI})
     FetchContent_MakeAvailable(imgui)
 
     collectSources(IMGUI_SRC src/Cherry/GUI)
-    source_group("Cherry/GUI" FILES ${IMGUI_SRC})
-
+    collectSources(IMGUI_SRC_COMPONENTS src/Cherry/GUI/Components)
     collectSources(IMGUI_SRC_INTERNAL ${imgui_SOURCE_DIR})
+
+    source_group("Cherry/GUI" FILES ${IMGUI_SRC})
+    source_group("Cherry/GUI/Components" FILES ${IMGUI_SRC_COMPONENTS})
     source_group("Cherry/GUI/Internal" FILES ${IMGUI_SRC_INTERNAL})
 
     set(IMGUI_SRC_BACKENDS 
@@ -77,7 +79,8 @@ ${PROJECT_SRC}
 ${PROJECT_SRC_PLATFORM_OPENGL}
 ${PROJECT_SRC_PLATFORM_OPENGL_GUI}
 ${PROJECT_SRC_UTILS}
-${IMGUI_SRC})
+${IMGUI_SRC}
+${IMGUI_SRC_COMPONENTS})
 
 target_include_directories(CherryAPI PUBLIC src)
 target_include_directories(CherryAPI PUBLIC ${imgui_SOURCE_DIR})

@@ -4,6 +4,7 @@
 
 #include <Cherry/Renderer.h>
 #include <Cherry/GUI/ImGuiAPI.h>
+#include <Cherry/GUI/Components/Label.h>
 #include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
 #include <Cherry/Shader.h>
@@ -61,6 +62,7 @@ int main() {
 
 	auto shader = Cherry::Shader::Create("Basic", vertexShader, fragShader);
 	SDL_Event ev;
+	auto label = Cherry::GUI::Label("my labels");
 	while (true) {
 		while (SDL_PollEvent(&ev) != 0) {};
 
@@ -72,8 +74,8 @@ int main() {
 		Cherry::Renderer::DrawTriangles(buf);
 
 		// render your GUI
-		ImGui::Begin("Demo window");
-		ImGui::Button("Hello!");
+		ImGui::Begin("Demo window");	
+		label.Render();
 		ImGui::End();
 
 		imGuiApi->DrawFrame();

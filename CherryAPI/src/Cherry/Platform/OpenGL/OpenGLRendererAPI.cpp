@@ -68,7 +68,7 @@ namespace Cherry {
 	void OpenGLRendererAPI::DrawTriangles(const std::shared_ptr<VertexBuffer>& vertexBuffer)
 	{
 		vertexBuffer->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, vertexBuffer->GetCount());
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer->GetCount()));
 		vertexBuffer->Unbind();
 	}
 }

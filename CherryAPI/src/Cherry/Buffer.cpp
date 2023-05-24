@@ -26,6 +26,7 @@ namespace Cherry{
         case Cherry::BufferDataType::DOUBLE:
             return count * 8;
         }
+        CHERRY_THROW("Unsupported buffer data type encountered!");
     }
 
     void BufferDescriptor::AddSegment(BufferDataType dataType, uint8_t count, bool normalized)
@@ -45,6 +46,7 @@ namespace Cherry{
         case RendererPlatform::Vulkan:
             CHERRY_THROW("Vertex Buffer is not supported in for Vulkan!");
         }
+        CHERRY_THROW("Unsupported render platform encountered!");
     };
 
 }

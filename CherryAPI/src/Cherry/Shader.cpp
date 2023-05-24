@@ -17,6 +17,7 @@ namespace Cherry{
         case RendererPlatform::Vulkan:
             CHERRY_THROW("Shader is not supported for Vulkan!");
         }
+        CHERRY_THROW("Unsupported render platform encountered!");
     }
 
 }
