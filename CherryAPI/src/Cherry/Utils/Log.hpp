@@ -27,12 +27,11 @@ namespace Cherry {
 			return result;
 		}
 	};
-}
 
 	#define CHERRY_DISPATCH_LOG(severity, description) { auto settings = Cherry::RendererAPI::GetSettings(); \
-		if(settings->logCallback) settings->logCallback(severity, description, Cherry::StringFormatter::format("%s in %s at line: %d", __FUNCTION__, __FILE__, __LINE__));}
+			if(settings->logCallback) settings->logCallback(severity, description, Cherry::StringFormatter::format("%s in %s at line: %d", __FUNCTION__, __FILE__, __LINE__));}
 	#define CHERRY_DISPATCH_LOG_LOC(severity, description, location) { auto settings = Cherry::RendererAPI::GetSettings(); \
-		if(settings->logCallback) settings->logCallback(severity, description, location);}
+			if(settings->logCallback) settings->logCallback(severity, description, location);}
 
 	#define CHERRY_TRACE(...)		CHERRY_DISPATCH_LOG(0, Cherry::StringFormatter::format(__VA_ARGS__))
 	#define CHERRY_LOG(...)			CHERRY_DISPATCH_LOG(1, Cherry::StringFormatter::format(__VA_ARGS__))
@@ -41,6 +40,4 @@ namespace Cherry {
 	#define CHERRY_CRITICAL(...)	CHERRY_DISPATCH_LOG(4, Cherry::StringFormatter::format(__VA_ARGS__))
 
 	#define CHERRY_THROW(...)		throw std::exception(Cherry::StringFormatter::format(__VA_ARGS__).c_str())
-
-
-
+}
