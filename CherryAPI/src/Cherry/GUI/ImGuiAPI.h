@@ -13,6 +13,7 @@ namespace Cherry::GUI{
         virtual void Deinit();
         virtual void NewFrame();
         virtual void DrawFrame();
+        virtual bool OnEvent(const SDL_Event* event);
 
         static std::unique_ptr<ImGuiAPI> Create();
     protected:

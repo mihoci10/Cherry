@@ -36,6 +36,11 @@ namespace Cherry::GUI {
         ImGui::Render();
     }
 
+    bool ImGuiAPI::OnEvent(const SDL_Event* event)
+    {
+        return ImGui_ImplSDL3_ProcessEvent(event);
+    }
+
     std::unique_ptr<ImGuiAPI> ImGuiAPI::Create()
     {
         if (s_Initialized)

@@ -64,6 +64,13 @@ namespace Cherry {
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
+
+	void OpenGLRendererAPI::DrawTriangles(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	{
+		vertexBuffer->Bind();
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer->GetCount()));
+		vertexBuffer->Unbind();
+	}
 }
 
 void GLAPIENTRY OpenGLMessageCallback(

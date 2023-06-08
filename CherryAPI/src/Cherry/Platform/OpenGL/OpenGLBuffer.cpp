@@ -31,6 +31,7 @@ namespace Cherry{
 		case Cherry::BufferDataType::BOOL:
 			return GL_BOOL;
 		}
+		CHERRY_THROW("Unsupported buffer data type encountered!");
 	}
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count) 
