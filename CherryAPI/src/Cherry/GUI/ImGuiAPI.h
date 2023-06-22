@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "imgui.h"
+#include "imgui_internal.h"
 
 namespace Cherry::GUI{
 
