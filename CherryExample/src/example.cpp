@@ -7,6 +7,7 @@
 #include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
 #include <Cherry/Shader.h>
+#include <Cherry/Framebuffer.h>
 
 int main() {
 
@@ -60,6 +61,9 @@ int main() {
 		" }\0";
 
 	auto shader = Cherry::Shader::Create("Basic", vertexShader, fragShader);
+
+	auto framebuffer = Cherry::Framebuffer::Create({ 100, 100, 1, {Cherry::FramebufferTextureFormat::Color} });
+
 	SDL_Event ev;
 	while (true) {
 		while (SDL_PollEvent(&ev) != 0) { imGuiApi->OnEvent(&ev); };
@@ -67,13 +71,19 @@ int main() {
 		imGuiApi->NewFrame();
 		Cherry::Renderer::Clear();
 
+		framebuffer->Resize(500, 500);
+
+		framebuffer->Bind();
+		Cherry::Renderer::Clear();
 		shader->Bind();
 		buf->Bind();
 		Cherry::Renderer::DrawTriangles(buf);
+		framebuffer->Unbind();
 
 		// render your GUI
 		ImGui::Begin("Demo window");	
 		ImGui::Text("asdf");
+		ImGui::Image((void*)framebuffer->GetColorAttachmentID(), ImVec2(500,500), ImVec2(1,1), ImVec2(0, 0));
 		ImGui::End();
 
 		imGuiApi->DrawFrame();
