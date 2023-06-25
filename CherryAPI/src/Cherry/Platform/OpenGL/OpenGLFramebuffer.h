@@ -23,7 +23,7 @@ namespace Cherry{
         void CreateTexture(uint32_t* textureID);
         void BindTexture(uint32_t textureID);
 
-        void AttachColorTexture(uint32_t textureID, uint32_t internalFormat, uint32_t format, int index);
+        void AttachColorTexture(uint32_t textureID, uint32_t internalFormat, uint32_t format, uint32_t index);
         void AttachDepthTexture(uint32_t textureID, uint32_t format, uint32_t attachmentType);
 
         uint32_t m_FramebufferID = 0;

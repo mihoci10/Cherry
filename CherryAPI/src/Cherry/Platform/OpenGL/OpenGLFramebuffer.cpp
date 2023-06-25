@@ -58,7 +58,7 @@ namespace Cherry{
                 m_ColorAttachments.push_back(0);
                 CreateTexture(m_ColorAttachments.data() + m_ColorAttachments.size() - 1);
                 BindTexture(m_ColorAttachments.back());
-                AttachColorTexture(m_ColorAttachments.back(), GL_RGBA8, GL_RGBA, m_ColorAttachments.size() - 1);
+                AttachColorTexture(m_ColorAttachments.back(), GL_RGBA8, GL_RGBA, static_cast<uint32_t>(m_ColorAttachments.size()) - 1);
                 break;
             case FramebufferTextureFormat::Depth:
                 CreateTexture(&m_DepthAttachment);
@@ -73,7 +73,7 @@ namespace Cherry{
 
         if (m_ColorAttachments.size() > 0) {
             static constexpr GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-            glDrawBuffers(m_ColorAttachments.size(), buffers);
+            glDrawBuffers(static_cast<int32_t>(m_ColorAttachments.size()), buffers);
         }
         else {
             glDrawBuffer(GL_NONE);
@@ -88,7 +88,7 @@ namespace Cherry{
     void OpenGLFramebuffer::Deinit()
     {
         glDeleteFramebuffers(1, &m_FramebufferID);
-        glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+        glDeleteTextures(static_cast<int32_t>(m_ColorAttachments.size()), m_ColorAttachments.data());
         glDeleteTextures(1, &m_DepthAttachment);
 
         m_ColorAttachments.clear();
@@ -110,7 +110,7 @@ namespace Cherry{
         glBindTexture(GetTextureTarget(), textureID);
     }
 
-    void OpenGLFramebuffer::AttachColorTexture(uint32_t textureID, uint32_t internalFormat, uint32_t format, int index)
+    void OpenGLFramebuffer::AttachColorTexture(uint32_t textureID, uint32_t internalFormat, uint32_t format, uint32_t index)
     {
         if (m_FramebufferSpecification.Samples > 1)
         {
