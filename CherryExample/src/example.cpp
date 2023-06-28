@@ -38,8 +38,8 @@ int main() {
 	 0.0f,  0.5f, 0.0f
 	};
 
-	auto desc = std::make_shared<Cherry::BufferDescriptor>();
-	desc->AddSegment(Cherry::BufferDataType::FLOAT, 3, false);
+	auto desc = Cherry::BufferDescriptor();
+	desc.AddSegment(Cherry::BufferDataType::FLOAT, 3, false);
 	auto buf = Cherry::VertexBuffer::Create(vertices.data(), desc, 3);
 
 	const std::string vertexShader=

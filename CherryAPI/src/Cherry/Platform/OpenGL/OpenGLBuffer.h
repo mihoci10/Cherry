@@ -6,7 +6,7 @@ namespace Cherry{
 
     class OpenGLVertexBuffer : public VertexBuffer {
     public:
-        OpenGLVertexBuffer(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count);
+        OpenGLVertexBuffer(void* data, const BufferDescriptor& descriptor, size_t count);
         ~OpenGLVertexBuffer();
 
         virtual void Bind() override;

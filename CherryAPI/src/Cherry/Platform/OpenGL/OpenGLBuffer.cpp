@@ -34,14 +34,14 @@ namespace Cherry{
 		CHERRY_THROW("Unsupported buffer data type encountered!");
 	}
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count) 
+	OpenGLVertexBuffer::OpenGLVertexBuffer(void* data, const BufferDescriptor& descriptor, size_t count)
 		: VertexBuffer(data, descriptor, count)
 	{
 		glCreateBuffers(1, &m_BufferID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_BufferID);
-		glBufferData(GL_ARRAY_BUFFER, m_Count * m_Descriptor->GetSize(), m_Data, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, m_Count * m_Descriptor.GetSize(), m_Data, GL_STATIC_DRAW);
 
-		const auto segments = m_Descriptor->GetSegments();
+		const auto segments = m_Descriptor.GetSegments();
 		glGenVertexArrays(1, &m_DescID);
 		glBindVertexArray(m_DescID);
 		glEnableVertexAttribArray(0);
@@ -50,7 +50,7 @@ namespace Cherry{
 				segment.count, 
 				BufferTypeConvert(segment.dataType),
 				segment.normalized ? GL_TRUE : GL_FALSE, 
-				m_Descriptor->GetSize() - segment.GetSize(), 
+				m_Descriptor.GetSize() - segment.GetSize(), 
 				NULL);
 		}
 	}

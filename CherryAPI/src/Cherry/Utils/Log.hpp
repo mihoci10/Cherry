@@ -10,7 +10,7 @@ namespace Cherry {
 			va_list args;
 
 			va_start(args, text);
-			std::string result = std::move(formatInternal(text, args));
+			std::string result = formatInternal(text, args);
 			va_end(args);
 
 			return result;

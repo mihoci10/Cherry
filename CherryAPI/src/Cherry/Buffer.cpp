@@ -35,7 +35,7 @@ namespace Cherry{
         m_Offset += m_Segments.back().GetSize();
     }
 
-    std::shared_ptr<VertexBuffer> const VertexBuffer::Create(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count) {
+    std::shared_ptr<VertexBuffer> const VertexBuffer::Create(void* data, const BufferDescriptor& descriptor, size_t count) {
 
         switch (RendererAPI::GetSettings()->platform)
         {

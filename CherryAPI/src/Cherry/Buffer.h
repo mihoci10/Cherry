@@ -42,13 +42,13 @@ namespace Cherry{
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
 
-        std::shared_ptr<BufferDescriptor> GetDescriptor() const { return m_Descriptor; };
+        const BufferDescriptor& GetDescriptor() const { return m_Descriptor; };
         size_t GetCount() const { return m_Count; }
 
     protected:
-        Buffer(std::shared_ptr<BufferDescriptor> descriptor, size_t count) 
+        Buffer(const BufferDescriptor& descriptor, size_t count)
             : m_Descriptor(descriptor), m_Count(count) {};
-        std::shared_ptr<BufferDescriptor> m_Descriptor;
+        BufferDescriptor m_Descriptor;
         size_t m_Count = 0;
     };
 
@@ -60,11 +60,11 @@ namespace Cherry{
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
 
-        static std::shared_ptr<VertexBuffer> const Create(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count);
+        static std::shared_ptr<VertexBuffer> const Create(void* data, const BufferDescriptor& descriptor, size_t count);
 
     protected:
-        VertexBuffer(void* data, std::shared_ptr<BufferDescriptor> descriptor, size_t count) 
-            : m_Data(data), Buffer(descriptor, count) {};
+        VertexBuffer(void* data, const BufferDescriptor& descriptor, size_t count) 
+            : Buffer(descriptor, count), m_Data(data) {};
         void* m_Data;
     };
 

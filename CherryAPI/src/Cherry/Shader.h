@@ -31,7 +31,7 @@ namespace Cherry{
 		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
 	protected:
-		Shader::Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 			: m_Name(name), m_Sources{ { ShaderSourceType::Vertex, vertexSrc }, { ShaderSourceType::Fragment, fragmentSrc } }
 		{}
 
