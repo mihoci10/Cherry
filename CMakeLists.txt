@@ -58,3 +58,6 @@ defineBoolVariable(CHERRY_BUILD_SHARED)
 
 add_subdirectory(CherryAPI)
 add_subdirectory(CherryExample)
+
+enable_testing()
+add_subdirectory(CherryTest)

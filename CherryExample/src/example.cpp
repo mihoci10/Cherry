@@ -11,7 +11,7 @@
 
 int main() {
 
-	int r = SDL_Init(SDL_INIT_VIDEO);
+	int r = SDL_InitSubSystem(SDL_INIT_VIDEO);
 	auto wnd = std::shared_ptr<SDL_Window>(SDL_CreateWindow("CherryExample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
 
@@ -24,6 +24,7 @@ int main() {
 	}
 	catch (std::exception e) {
 		printf("%s", e.what());
+		return 1;
 	}
 
 	std::unique_ptr<Cherry::GUI::ImGuiAPI> imGuiApi = Cherry::GUI::ImGuiAPI::Create();
