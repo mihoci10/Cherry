@@ -77,6 +77,16 @@ namespace Cherry
 
 			glShaderSource(shader, 1, &src, &len);
 			glCompileShader(shader);
+
+			GLint compiled;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+			if (compiled != GL_TRUE)
+			{
+				GLchar logBuf[256];
+				glGetShaderInfoLog(shader, sizeof(logBuf), NULL, logBuf);
+				throw std::exception(logBuf);
+			}
+
 			glAttachShader(program, shader);
 		}
 
