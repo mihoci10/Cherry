@@ -10,13 +10,15 @@ void GLAPIENTRY OpenGLMessageCallback(GLenum source, GLenum type, GLuint id, GLe
 
 namespace Cherry {
 
-	void OpenGLRendererAPI::Init()
+	OpenGLRendererAPI::OpenGLRendererAPI(SDL_Window& windowHandle,
+		RendererSettings rendererSettings)
+		: RendererAPI(windowHandle, rendererSettings)
 	{
 		GLenum res;
 		const char* errMsg;
 
 		SDL_ClearError();
-		m_ctx = SDL_GL_CreateContext(RendererAPI::GetWindowHnd().get());
+		m_ctx = SDL_GL_CreateContext(&m_WindowHandle);
 		if (m_ctx == NULL) {
 			errMsg = SDL_GetError();
 			CHERRY_THROW("SDL could not acquire OpenGL context! (Reason: %s)", errMsg);
@@ -25,11 +27,11 @@ namespace Cherry {
 
 		res = glewInit();
 		if (res != GLEW_OK) {
-			errMsg = (const char*) glewGetErrorString(res);
+			errMsg = (const char*)glewGetErrorString(res);
 			CHERRY_THROW("GLEW could not be initialized! (Reason: %s)", errMsg);
 		}
 
-		if (RendererAPI::GetSettings()->debugMode) {
+		if (m_RendererSettings.debugMode) {
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(OpenGLMessageCallback, this);
@@ -44,10 +46,9 @@ namespace Cherry {
 		glEnable(GL_LINE_SMOOTH);
 	}
 
-	void OpenGLRendererAPI::Deinit()
+	OpenGLRendererAPI::~OpenGLRendererAPI()
 	{
 		SDL_GL_DeleteContext(m_ctx);
-		RendererAPI::Deinit();
 	}
 
 	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
@@ -65,11 +66,11 @@ namespace Cherry {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawTriangles(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void OpenGLRendererAPI::DrawTriangles(VertexBuffer& vertexBuffer)
 	{
-		vertexBuffer->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer->GetCount()));
-		vertexBuffer->Unbind();
+		vertexBuffer.Bind();
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer.GetCount()));
+		vertexBuffer.Unbind();
 	}
 }
 
@@ -83,6 +84,6 @@ void GLAPIENTRY OpenGLMessageCallback(
 	const void* userParam)
 {
 	Cherry::OpenGLRendererAPI* renderer = (Cherry::OpenGLRendererAPI*) userParam;
-
-	CHERRY_DISPATCH_LOG_LOC(severity, std::string_view(message, length), Cherry::StringFormatter::format("(src: %d type: %d id: %d)", source, type, id));
+	
+	CHERRY_DISPATCH_LOG_LOC(renderer, severity, std::string_view(message, length), Cherry::StringFormatter::format("(src: %d type: %d id: %d)", source, type, id));
 }

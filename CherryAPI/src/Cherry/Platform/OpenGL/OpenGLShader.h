@@ -26,6 +26,6 @@ namespace Cherry{
 
 		uint32_t m_ProgramID;
 		std::unordered_map<ShaderSourceType, uint32_t> m_ShaderIds = {};
-    };
+	};
 
 }

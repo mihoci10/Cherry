@@ -9,8 +9,8 @@ namespace Cherry{
         OpenGLVertexBuffer(void* data, const BufferDescriptor& descriptor, size_t count);
         ~OpenGLVertexBuffer();
 
-        virtual void Bind() override;
-        virtual void Unbind() override;
+        virtual void Bind() const override;
+        virtual void Unbind() const override;
 
     private:
         uint32_t m_BufferID = 0;

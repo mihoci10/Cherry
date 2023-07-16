@@ -6,14 +6,14 @@
 namespace Cherry{
 
     OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& framebufferSpecification)
-        : m_FramebufferSpecification(framebufferSpecification)
+        : Framebuffer(), m_FramebufferSpecification(framebufferSpecification)
     {  
-        Init();
+        Initialize();
     }
 
     OpenGLFramebuffer::~OpenGLFramebuffer()
     {
-        Deinit();
+        Deinitialize();
     }
 
     void OpenGLFramebuffer::Bind()
@@ -36,8 +36,8 @@ namespace Cherry{
         m_FramebufferSpecification.Width = width;
         m_FramebufferSpecification.Height = height;
 
-        Deinit();
-        Init();
+        Deinitialize();
+        Initialize();
     }
 
     uint32_t OpenGLFramebuffer::GetColorAttachmentID(uint32_t index)
@@ -45,7 +45,7 @@ namespace Cherry{
         return m_ColorAttachments[index];
     }
 
-    void OpenGLFramebuffer::Init()
+    void OpenGLFramebuffer::Initialize()
     {
         glCreateFramebuffers(1, &m_FramebufferID);
         glBindFramebuffer(GL_FRAMEBUFFER, m_FramebufferID);
@@ -85,7 +85,7 @@ namespace Cherry{
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
-    void OpenGLFramebuffer::Deinit()
+    void OpenGLFramebuffer::Deinitialize()
     {
         glDeleteFramebuffers(1, &m_FramebufferID);
         glDeleteTextures(static_cast<int32_t>(m_ColorAttachments.size()), m_ColorAttachments.data());

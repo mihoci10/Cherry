@@ -7,7 +7,7 @@ namespace Cherry{
     class OpenGLFramebuffer: public Framebuffer {
     public:
         OpenGLFramebuffer(const FramebufferSpecification& framebufferSpecification);
-        virtual ~OpenGLFramebuffer();
+        ~OpenGLFramebuffer();
 
         virtual void Bind() override;
         virtual void Unbind() override;
@@ -15,9 +15,10 @@ namespace Cherry{
         virtual void Resize(uint32_t width, uint32_t height) override;
         virtual uint32_t GetColorAttachmentID(uint32_t index = 0) override;
 
+
     private:
-        void Init();
-        void Deinit();
+        void Initialize();
+        void Deinitialize();
 
         uint32_t GetTextureTarget();
         void CreateTexture(uint32_t* textureID);

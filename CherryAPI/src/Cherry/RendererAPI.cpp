@@ -5,45 +5,23 @@
 
 namespace Cherry {
 
-    bool RendererAPI::s_Initialized = false;
-    std::shared_ptr<SDL_Window> RendererAPI::s_WndHnd = nullptr;
-    std::shared_ptr<RendererSettings> RendererAPI::s_Settings = nullptr;
-
-    RendererAPI::RendererAPI()
+    RendererAPI::RendererAPI(SDL_Window& windowHandle,
+        RendererSettings rendererSettings)
+        : m_WindowHandle(windowHandle), m_RendererSettings(rendererSettings)
     {
     }
 
-    void RendererAPI::Deinit()
+    std::unique_ptr<RendererAPI> RendererAPI::Create(SDL_Window& windowHandle,
+        RendererSettings rendererSettings)
     {
-        s_Settings = nullptr;
-        s_WndHnd = nullptr;
-        s_Initialized = false;
-    }
-
-    std::unique_ptr<RendererAPI> RendererAPI::Create(std::shared_ptr<SDL_Window> windowHandle, std::shared_ptr<RendererSettings> rendererSettings)
-    {
-        if (s_Initialized)
-            CHERRY_THROW("Cannot initialize RendererAPI twice!");
-
-        std::unique_ptr<RendererAPI> result = nullptr;
-
-        switch (rendererSettings->platform)
+        switch (rendererSettings.platform)
         {
         case Cherry::RendererPlatform::None:
             CHERRY_THROW("Headless mode is not supported by Renderer API!");
-            break;
         case Cherry::RendererPlatform::OpenGL:
-            result = std::make_unique<OpenGLRendererAPI>();
-            break;
+            return std::make_unique<OpenGLRendererAPI>(windowHandle, rendererSettings);
         case Cherry::RendererPlatform::Vulkan:
             CHERRY_THROW("Vulcan platform is not supported by Renderer API!");
-            break;
         }
-
-        s_Initialized = true;
-        s_WndHnd = windowHandle;
-        s_Settings = rendererSettings;
-
-        return result;
     }
 }

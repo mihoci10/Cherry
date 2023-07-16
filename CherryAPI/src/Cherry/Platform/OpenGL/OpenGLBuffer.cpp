@@ -60,13 +60,13 @@ namespace Cherry{
 		glDeleteBuffers(1, &m_BufferID);
 	}
 
-	void OpenGLVertexBuffer::Bind()
+	void OpenGLVertexBuffer::Bind() const
 	{
 		glBindVertexArray(m_DescID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_BufferID);
 	}
 
-	void OpenGLVertexBuffer::Unbind()
+	void OpenGLVertexBuffer::Unbind() const
 	{
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

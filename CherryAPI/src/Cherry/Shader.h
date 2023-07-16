@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Cherry/RendererSettings.hpp>
+
 #include <glm/glm.hpp>
 
 namespace Cherry{
@@ -10,7 +12,6 @@ namespace Cherry{
 
     class Shader {
 	public:
-
 		Shader() = delete;
 		virtual ~Shader() = default;
 
@@ -28,12 +29,10 @@ namespace Cherry{
 		inline const std::string& GetName() const { return m_Name; };
 		inline const std::string& GetSource(ShaderSourceType sourceType) const { return m_Sources.at(sourceType); }
 
-		static std::shared_ptr<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+		static std::unique_ptr<Shader> Create(const RendererSettings& rendererSettings, const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
 	protected:
-		Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
-			: m_Name(name), m_Sources{ { ShaderSourceType::Vertex, vertexSrc }, { ShaderSourceType::Fragment, fragmentSrc } }
-		{}
+		Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
 		std::string m_Name;
 		std::unordered_map<ShaderSourceType, std::string> m_Sources;

@@ -3,21 +3,30 @@
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include <Cherry/RendererAPI.h>
-
 namespace Cherry::GUI {
 
-	void OpenGLImGuiAPI::Init()
+	OpenGLImGuiAPI::OpenGLImGuiAPI(std::shared_ptr<RendererAPI> renderer)
+		: ImGuiAPI(renderer)
 	{
-		ImGuiAPI::Init();
-		ImGui_ImplSDL3_InitForOpenGL(RendererAPI::GetWindowHnd().get(), SDL_GL_GetCurrentContext());
+		Initialize();
+	}
+
+	OpenGLImGuiAPI::~OpenGLImGuiAPI()
+	{
+		Deinitialize();
+	}
+
+	void OpenGLImGuiAPI::Initialize()
+	{
+		ImGuiAPI::Initialize();
+		ImGui_ImplSDL3_InitForOpenGL(&m_Renderer->GetWindowHandle(), SDL_GL_GetCurrentContext());
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
-	void OpenGLImGuiAPI::Deinit()
+	void OpenGLImGuiAPI::Deinitialize()
 	{
-		ImGuiAPI::Deinit();
 		ImGui_ImplOpenGL3_Shutdown();
+		ImGuiAPI::Deinitialize();
 	}
 
 	void OpenGLImGuiAPI::NewFrame()

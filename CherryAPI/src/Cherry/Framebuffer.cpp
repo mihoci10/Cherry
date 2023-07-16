@@ -1,19 +1,23 @@
 #include "Framebuffer.h"
 
 #include <Cherry/Utils/Log.hpp>
-#include <Cherry/RendererAPI.h>
 #include <Cherry/Platform/OpenGL/OpenGLFramebuffer.h>
 
-namespace Cherry{    
+namespace Cherry{
 
-    std::shared_ptr<Framebuffer> Framebuffer::Create(const FramebufferSpecification& framebufferSpecification)
+    Framebuffer::Framebuffer()
     {
-        switch (RendererAPI::GetSettings()->platform)
+    }
+
+    std::unique_ptr<Framebuffer> Framebuffer::Create(const RendererSettings& rendererSettings,
+        const FramebufferSpecification& framebufferSpecification)
+    {
+        switch (rendererSettings.platform)
         {
         case RendererPlatform::None:
             CHERRY_THROW("Framebuffer is not supported in headless mode!");
         case RendererPlatform::OpenGL:
-            return std::make_shared<OpenGLFramebuffer>(framebufferSpecification);
+            return std::make_unique<OpenGLFramebuffer>(framebufferSpecification);
         case RendererPlatform::Vulkan:
             CHERRY_THROW("Framebuffer is not supported for Vulkan!");
         }

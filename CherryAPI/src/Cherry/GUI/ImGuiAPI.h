@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Cherry/RendererAPI.h>
+
 #include <SDL.h>
 #include "imgui.h"
 #include "imgui_internal.h"
@@ -10,16 +12,17 @@ namespace Cherry::GUI{
     public:
         virtual ~ImGuiAPI() = default;
 
-        virtual void Init();
-        virtual void Deinit();
         virtual void NewFrame();
         virtual void DrawFrame();
         virtual bool OnEvent(const SDL_Event* event);
 
-        static std::unique_ptr<ImGuiAPI> Create();
+        static std::unique_ptr<ImGuiAPI> Create(std::shared_ptr<RendererAPI> renderer);
     protected:
-        ImGuiAPI();
-    private:
-        static bool s_Initialized;
+        ImGuiAPI(std::shared_ptr<RendererAPI> renderer);
+
+        virtual void Initialize();
+        virtual void Deinitialize();
+
+        std::shared_ptr<RendererAPI> m_Renderer;
     };
 }

@@ -9,22 +9,19 @@ protected:
 	RendererAPIFixture() {
 		auto [platform, debugMode] = GetParam();
 
-		Settings = std::make_shared<Cherry::RendererSettings>(platform, debugMode);
-		Wnd = std::shared_ptr<SDL_Window>(SDL_CreateWindow("CherryTest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
+		Wnd = SDL_CreateWindow("CherryTest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			512, 512, SDL_WINDOW_OPENGL);
 
-		RendererApi = Cherry::RendererAPI::Create(Wnd, Settings);
+		RendererApi = Cherry::RendererAPI::Create(*Wnd, Cherry::RendererSettings(platform, debugMode));
 	};
 	std::unique_ptr<Cherry::RendererAPI> RendererApi;
 
 private:
-	std::shared_ptr<Cherry::RendererSettings> Settings;
-	std::shared_ptr<SDL_Window> Wnd;
+	SDL_Window* Wnd;
 };
 
 TEST_P(RendererAPIFixture, StartStop) {
-	RendererApi->Init();
-	RendererApi->Deinit();
+
 }
 
 INSTANTIATE_TEST_SUITE_P(

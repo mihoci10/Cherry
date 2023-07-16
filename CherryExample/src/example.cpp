@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <SDL.h>
 
-#include <Cherry/Renderer.h>
+#include <Cherry/RendererAPI.h>
 #include <Cherry/GUI/ImGuiAPI.h>
 #include <Cherry/Buffer.h>
 #include <Cherry/Utils/SDLUtils.hpp>
@@ -12,26 +12,26 @@
 int main() {
 
 	int r = SDL_InitSubSystem(SDL_INIT_VIDEO);
-	auto wnd = std::shared_ptr<SDL_Window>(SDL_CreateWindow("CherryExample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
+	auto wnd = SDL_CreateWindow("CherryExample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		512, 512, SDL_WINDOW_OPENGL);
 
-	auto settings = std::make_shared<Cherry::RendererSettings>(Cherry::RendererPlatform::OpenGL, true);
-	settings->logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("[LOG %d]\n  %s\n  %s\n", severity, msg.data(), source.data()); };
+	auto settings = Cherry::RendererSettings(Cherry::RendererPlatform::OpenGL, true);
+	settings.logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("[LOG %d]\n  %s\n  %s\n", severity, msg.data(), source.data()); };
+
+	std::shared_ptr<Cherry::RendererAPI> rendererApi;
 
 	try {
-		Cherry::Renderer::Create(wnd, settings);
-		Cherry::Renderer::Init();
+		rendererApi = Cherry::RendererAPI::Create(*wnd, settings);
 	}
 	catch (std::exception e) {
 		printf("%s", e.what());
 		return 1;
 	}
 
-	std::unique_ptr<Cherry::GUI::ImGuiAPI> imGuiApi = Cherry::GUI::ImGuiAPI::Create();
-	imGuiApi->Init();
+	std::unique_ptr<Cherry::GUI::ImGuiAPI> imGuiApi = Cherry::GUI::ImGuiAPI::Create(rendererApi);
 
-	Cherry::Renderer::SetViewport(0, 0, 512, 512);
-	Cherry::Renderer::SetClearColor(glm::vec4(0.5));
+	rendererApi->SetViewport(0, 0, 512, 512);
+	rendererApi->SetClearColor(glm::vec4(0.5));
 
 	std::array<float, 9> vertices{
 	-0.5f, -0.5f, 0.0f,
@@ -41,7 +41,8 @@ int main() {
 
 	auto desc = Cherry::BufferDescriptor();
 	desc.AddSegment(Cherry::BufferDataType::FLOAT, 3, false);
-	auto buf = Cherry::VertexBuffer::Create(vertices.data(), desc, 3);
+	std::shared_ptr<Cherry::VertexBuffer> buf = 
+		Cherry::VertexBuffer::Create(rendererApi->GetRendererSettings(), vertices.data(), desc, 3);
 
 	const std::string vertexShader=
 		"#version 330 core\n"
@@ -61,24 +62,25 @@ int main() {
 		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 		" }\0";
 
-	auto shader = Cherry::Shader::Create("Basic", vertexShader, fragShader);
+	auto shader = Cherry::Shader::Create(rendererApi->GetRendererSettings(), "Basic", vertexShader, fragShader);
 
-	auto framebuffer = Cherry::Framebuffer::Create({ 100, 100, 1, {Cherry::FramebufferTextureFormat::Color} });
+	auto framebuffer = Cherry::Framebuffer::Create(rendererApi->GetRendererSettings(), 
+		{ 100, 100, 1, {Cherry::FramebufferTextureFormat::Color} });
 
 	SDL_Event ev;
 	while (true) {
 		while (SDL_PollEvent(&ev) != 0) { imGuiApi->OnEvent(&ev); };
 
 		imGuiApi->NewFrame();
-		Cherry::Renderer::Clear();
+		rendererApi->Clear();
 
 		framebuffer->Resize(500, 500);
 
 		framebuffer->Bind();
-		Cherry::Renderer::Clear();
+		rendererApi->Clear();
 		shader->Bind();
 		buf->Bind();
-		Cherry::Renderer::DrawTriangles(buf);
+		rendererApi->DrawTriangles(*buf.get());
 		framebuffer->Unbind();
 
 		// render your GUI
@@ -89,7 +91,7 @@ int main() {
 
 		imGuiApi->DrawFrame();
 
-		SDL_GL_SwapWindow(wnd.get());
+		SDL_GL_SwapWindow(wnd);
 	}
 
 	return 0;

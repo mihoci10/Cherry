@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Cherry/RendererSettings.hpp>
+
 namespace Cherry{
 
     enum class FramebufferTextureFormat {
@@ -22,7 +24,11 @@ namespace Cherry{
         virtual void Resize(uint32_t width, uint32_t height) = 0;
         virtual uint32_t GetColorAttachmentID(uint32_t index = 0) = 0;
 
-        static std::shared_ptr<Framebuffer> Create(const FramebufferSpecification& framebufferSpecification);
+        static std::unique_ptr<Framebuffer> Create(const RendererSettings& rendererSettings, 
+            const FramebufferSpecification& framebufferSpecification);
+
+    protected:
+        Framebuffer();
     };
 
 }

@@ -1,6 +1,5 @@
 #include "Buffer.h"
 
-#include <Cherry/RendererAPI.h>
 #include <Cherry/Platform/OpenGL/OpenGLBuffer.h>
 #include <Cherry/Utils/Log.hpp>
 
@@ -35,14 +34,14 @@ namespace Cherry{
         m_Offset += m_Segments.back().GetSize();
     }
 
-    std::shared_ptr<VertexBuffer> const VertexBuffer::Create(void* data, const BufferDescriptor& descriptor, size_t count) {
+    std::unique_ptr<VertexBuffer> VertexBuffer::Create(const RendererSettings& rendererSettings, void* data, const BufferDescriptor& descriptor, size_t count) {
 
-        switch (RendererAPI::GetSettings()->platform)
+        switch (rendererSettings.platform)
         {
         case RendererPlatform::None:
             CHERRY_THROW("Vertex Buffer is not supported in headless mode!");
         case RendererPlatform::OpenGL:
-            return std::make_shared<OpenGLVertexBuffer>(data, descriptor, count);
+            return std::make_unique<OpenGLVertexBuffer>(data, descriptor, count);
         case RendererPlatform::Vulkan:
             CHERRY_THROW("Vertex Buffer is not supported in for Vulkan!");
         }

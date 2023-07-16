@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Cherry/RendererSettings.hpp>
+
 namespace Cherry{
 
     enum class BufferDataType {
@@ -39,8 +41,8 @@ namespace Cherry{
         Buffer() = delete;
         virtual ~Buffer() = default;
 
-        virtual void Bind() = 0;
-        virtual void Unbind() = 0;
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
 
         const BufferDescriptor& GetDescriptor() const { return m_Descriptor; };
         size_t GetCount() const { return m_Count; }
@@ -57,10 +59,10 @@ namespace Cherry{
         VertexBuffer() = delete;
         virtual ~VertexBuffer() = default;
 
-        virtual void Bind() = 0;
-        virtual void Unbind() = 0;
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
 
-        static std::shared_ptr<VertexBuffer> const Create(void* data, const BufferDescriptor& descriptor, size_t count);
+        static std::unique_ptr<VertexBuffer> Create(const RendererSettings& rendererSettings, void* data, const BufferDescriptor& descriptor, size_t count);
 
     protected:
         VertexBuffer(void* data, const BufferDescriptor& descriptor, size_t count) 
