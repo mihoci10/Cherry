@@ -17,17 +17,17 @@ namespace Cherry{
         virtual void DrawTriangles(VertexBuffer& vertexBuffer) = 0;
         virtual void Clear() = 0;
 
-        SDL_Window& GetWindowHandle() const { return m_WindowHandle; };
+        std::shared_ptr<SDL_Window> GetWindowHandle() const { return m_WindowHandle; };
         const RendererSettings& GetRendererSettings() const { return m_RendererSettings; };
 
-        static std::unique_ptr<RendererAPI> Create(SDL_Window& windowHandle,
+        static std::unique_ptr<RendererAPI> Create(std::shared_ptr<SDL_Window> windowHandle,
             RendererSettings rendererSettings);
 
     protected:
-        RendererAPI(SDL_Window& windowHandle,
+        RendererAPI(std::shared_ptr<SDL_Window> windowHandle,
             RendererSettings rendererSettings);
 
-        SDL_Window& m_WindowHandle;
+        std::shared_ptr<SDL_Window> m_WindowHandle;
         RendererSettings m_RendererSettings;
     };
 }

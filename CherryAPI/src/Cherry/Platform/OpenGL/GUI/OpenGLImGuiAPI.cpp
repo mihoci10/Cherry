@@ -19,7 +19,7 @@ namespace Cherry::GUI {
 	void OpenGLImGuiAPI::Initialize()
 	{
 		ImGuiAPI::Initialize();
-		ImGui_ImplSDL3_InitForOpenGL(&m_Renderer->GetWindowHandle(), SDL_GL_GetCurrentContext());
+		ImGui_ImplSDL3_InitForOpenGL(m_Renderer->GetWindowHandle().get(), SDL_GL_GetCurrentContext());
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 

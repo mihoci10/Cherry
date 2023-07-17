@@ -9,15 +9,16 @@ protected:
 	RendererAPIFixture() {
 		auto [platform, debugMode] = GetParam();
 
-		Wnd = SDL_CreateWindow("CherryTest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-			512, 512, SDL_WINDOW_OPENGL);
+		Wnd = std::shared_ptr<SDL_Window>(SDL_CreateWindow("CherryTest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+			512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
 
-		RendererApi = Cherry::RendererAPI::Create(*Wnd, Cherry::RendererSettings(platform, debugMode));
+		RendererApi = Cherry::RendererAPI::Create(Wnd, Cherry::RendererSettings(platform, debugMode));
 	};
+
 	std::unique_ptr<Cherry::RendererAPI> RendererApi;
 
 private:
-	SDL_Window* Wnd;
+	std::shared_ptr<SDL_Window> Wnd;
 };
 
 TEST_P(RendererAPIFixture, StartStop) {

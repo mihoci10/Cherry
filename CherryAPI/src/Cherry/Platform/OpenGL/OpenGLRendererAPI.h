@@ -6,7 +6,7 @@ namespace Cherry {
 
 	class OpenGLRendererAPI: public RendererAPI {
 	public:
-		OpenGLRendererAPI(SDL_Window& windowHandle,
+		OpenGLRendererAPI(std::shared_ptr<SDL_Window> windowHandle,
 			RendererSettings rendererSettings);
 		~OpenGLRendererAPI();
 

@@ -5,13 +5,13 @@
 
 namespace Cherry {
 
-    RendererAPI::RendererAPI(SDL_Window& windowHandle,
+    RendererAPI::RendererAPI(std::shared_ptr<SDL_Window> windowHandle,
         RendererSettings rendererSettings)
         : m_WindowHandle(windowHandle), m_RendererSettings(rendererSettings)
     {
     }
 
-    std::unique_ptr<RendererAPI> RendererAPI::Create(SDL_Window& windowHandle,
+    std::unique_ptr<RendererAPI> RendererAPI::Create(std::shared_ptr<SDL_Window> windowHandle,
         RendererSettings rendererSettings)
     {
         switch (rendererSettings.platform)

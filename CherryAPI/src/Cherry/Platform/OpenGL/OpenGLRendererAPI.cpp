@@ -10,7 +10,7 @@ void GLAPIENTRY OpenGLMessageCallback(GLenum source, GLenum type, GLuint id, GLe
 
 namespace Cherry {
 
-	OpenGLRendererAPI::OpenGLRendererAPI(SDL_Window& windowHandle,
+	OpenGLRendererAPI::OpenGLRendererAPI(std::shared_ptr<SDL_Window> windowHandle,
 		RendererSettings rendererSettings)
 		: RendererAPI(windowHandle, rendererSettings)
 	{
@@ -18,7 +18,7 @@ namespace Cherry {
 		const char* errMsg;
 
 		SDL_ClearError();
-		m_ctx = SDL_GL_CreateContext(&m_WindowHandle);
+		m_ctx = SDL_GL_CreateContext(m_WindowHandle.get());
 		if (m_ctx == NULL) {
 			errMsg = SDL_GetError();
 			CHERRY_THROW("SDL could not acquire OpenGL context! (Reason: %s)", errMsg);

@@ -12,8 +12,8 @@
 int main() {
 
 	int r = SDL_InitSubSystem(SDL_INIT_VIDEO);
-	auto wnd = SDL_CreateWindow("CherryExample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		512, 512, SDL_WINDOW_OPENGL);
+	auto wnd = std::shared_ptr<SDL_Window>(SDL_CreateWindow("CherryExample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		512, 512, SDL_WINDOW_OPENGL), Cherry::SDL_Deleter());
 
 	auto settings = Cherry::RendererSettings(Cherry::RendererPlatform::OpenGL, true);
 	settings.logCallback = [](uint8_t severity, std::string_view msg, std::string_view source) -> void {printf("[LOG %d]\n  %s\n  %s\n", severity, msg.data(), source.data()); };
@@ -21,7 +21,7 @@ int main() {
 	std::shared_ptr<Cherry::RendererAPI> rendererApi;
 
 	try {
-		rendererApi = Cherry::RendererAPI::Create(*wnd, settings);
+		rendererApi = Cherry::RendererAPI::Create(wnd, settings);
 	}
 	catch (std::exception e) {
 		printf("%s", e.what());
@@ -91,7 +91,7 @@ int main() {
 
 		imGuiApi->DrawFrame();
 
-		SDL_GL_SwapWindow(wnd);
+		SDL_GL_SwapWindow(wnd.get());
 	}
 
 	return 0;
