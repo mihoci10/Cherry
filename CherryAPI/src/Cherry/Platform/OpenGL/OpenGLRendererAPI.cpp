@@ -46,7 +46,7 @@ namespace Cherry {
 		glEnable(GL_LINE_SMOOTH);
 	}
 
-	OpenGLRendererAPI::~OpenGLRendererAPI() const
+	OpenGLRendererAPI::~OpenGLRendererAPI()
 	{
 		SDL_GL_DeleteContext(m_ctx);
 	}
