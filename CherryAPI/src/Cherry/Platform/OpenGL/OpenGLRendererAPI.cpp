@@ -46,27 +46,27 @@ namespace Cherry {
 		glEnable(GL_LINE_SMOOTH);
 	}
 
-	OpenGLRendererAPI::~OpenGLRendererAPI()
+	OpenGLRendererAPI::~OpenGLRendererAPI() const
 	{
 		SDL_GL_DeleteContext(m_ctx);
 	}
 
-	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) const
 	{
 		glViewport(x, y, width, height);
 	}
 
-	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
+	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color) const
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
-	void OpenGLRendererAPI::Clear()
+	void OpenGLRendererAPI::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawTriangles(VertexBuffer& vertexBuffer)
+	void OpenGLRendererAPI::DrawTriangles(VertexBuffer& vertexBuffer) const
 	{
 		vertexBuffer.Bind();
 		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer.GetCount()));
