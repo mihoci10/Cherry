@@ -48,4 +48,18 @@ namespace Cherry{
         CHERRY_THROW("Unsupported render platform encountered!");
     };
 
+    std::unique_ptr<IndexBuffer> IndexBuffer::Create(const RendererSettings& rendererSettings, void* data, const BufferDescriptor& descriptor, size_t count)
+    {
+        switch (rendererSettings.platform)
+        {
+        case RendererPlatform::None:
+            CHERRY_THROW("Index Buffer is not supported in headless mode!");
+        case RendererPlatform::OpenGL:
+            return std::make_unique<OpenGLIndexBuffer>(data, descriptor, count);
+        case RendererPlatform::Vulkan:
+            CHERRY_THROW("Index Buffer is not supported in for Vulkan!");
+        }
+        CHERRY_THROW("Unsupported render platform encountered!");
+    }
+
 }

@@ -70,4 +70,20 @@ namespace Cherry{
         void* m_Data;
     };
 
+    class IndexBuffer: public Buffer
+    {
+    public:
+        virtual ~IndexBuffer() = default;
+
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
+
+        static std::unique_ptr<IndexBuffer> Create(const RendererSettings& rendererSettings, void* data, const BufferDescriptor& descriptor, size_t count);
+
+    protected:
+        IndexBuffer(void* data, const BufferDescriptor& descriptor, size_t count)
+            : Buffer(descriptor, count), m_Data(data) {};
+        void* m_Data;
+    };
+
 }

@@ -36,7 +36,7 @@ namespace Cherry {
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(OpenGLMessageCallback, this);
 
-			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_TRUE);
 		}
 
 		glEnable(GL_BLEND);
@@ -66,11 +66,20 @@ namespace Cherry {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawTriangles(VertexBuffer& vertexBuffer) const
+	void OpenGLRendererAPI::Draw(VertexBuffer& vertexBuffer) const
 	{
 		vertexBuffer.Bind();
 		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexBuffer.GetCount()));
 		vertexBuffer.Unbind();
+	}
+
+	void OpenGLRendererAPI::Draw(BufferBatch& bufferBatch) const
+	{
+		bufferBatch.Bind();
+		if (!bufferBatch.GetIndexBuffer())
+			CHERRY_THROW("Cannot draw a buffer batch without an index buffer");
+		glDrawElements(GL_TRIANGLES, bufferBatch.GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		bufferBatch.Unbind();
 	}
 }
 

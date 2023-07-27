@@ -10,7 +10,8 @@ namespace Cherry {
 			RendererSettings rendererSettings);
 		~OpenGLRendererAPI();
 
-		virtual void DrawTriangles(VertexBuffer& vertexBuffer) const override;
+		virtual void Draw(VertexBuffer& vertexBuffer) const override;
+		virtual void Draw(BufferBatch& bufferBatch) const override;
 
 		virtual void SetClearColor(const glm::vec4& color) const override;
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) const override;

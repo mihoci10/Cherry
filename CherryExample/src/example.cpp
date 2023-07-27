@@ -4,7 +4,7 @@
 
 #include <Cherry/RendererAPI.h>
 #include <Cherry/GUI/ImGuiAPI.h>
-#include <Cherry/Buffer.h>
+#include <Cherry/BufferBatch.h>
 #include <Cherry/Utils/SDLUtils.hpp>
 #include <Cherry/Shader.h>
 #include <Cherry/Framebuffer.h>
@@ -39,10 +39,23 @@ int main() {
 	 0.0f,  0.5f, 0.0f
 	};
 
+	std::array<uint32_t, 3> indicies{
+		0, 1, 2
+	};
+
 	auto desc = Cherry::BufferDescriptor();
 	desc.AddSegment(Cherry::BufferDataType::FLOAT, 3, false);
 	std::shared_ptr<Cherry::VertexBuffer> buf = 
 		Cherry::VertexBuffer::Create(rendererApi->GetRendererSettings(), vertices.data(), desc, 3);
+
+	auto indDesc = Cherry::BufferDescriptor();
+	indDesc.AddSegment(Cherry::BufferDataType::UINT_32, 1, false);
+	std::shared_ptr<Cherry::IndexBuffer> indexBuffer = 
+		Cherry::IndexBuffer::Create(rendererApi->GetRendererSettings(), indicies.data(), indDesc, 3);
+
+	auto bufferBatch = Cherry::BufferBatch::Create(rendererApi->GetRendererSettings());
+	bufferBatch->AddVertexBuffer(buf);
+	bufferBatch->SetIndexBuffer(indexBuffer);
 
 	const std::string vertexShader=
 		"#version 330 core\n"
@@ -79,8 +92,7 @@ int main() {
 		framebuffer->Bind();
 		rendererApi->Clear();
 		shader->Bind();
-		buf->Bind();
-		rendererApi->DrawTriangles(*buf.get());
+		rendererApi->Draw(*bufferBatch.get());
 		framebuffer->Unbind();
 
 		// render your GUI
