@@ -47,7 +47,7 @@ namespace Cherry{
                     glVertexAttribIPointer(static_cast<GLuint>(m_VertexAttribCount),
                         segment.count,
                         BufferTypeConvert(segment.dataType),
-                        vertexBuffer->GetDescriptor().GetSize() - segment.GetSize(),
+                        vertexBuffer->GetDescriptor().GetSize(),
                         (const void*)segment.offset);
                     break;
                 case Cherry::BufferDataType::FLOAT:
@@ -57,7 +57,7 @@ namespace Cherry{
                         segment.count,
                         BufferTypeConvert(segment.dataType),
                         segment.normalized ? GL_TRUE : GL_FALSE,
-                        vertexBuffer->GetDescriptor().GetSize() - segment.GetSize(),
+                        vertexBuffer->GetDescriptor().GetSize(),
                         (const void*)segment.offset);
                     break;
             }
