@@ -23,6 +23,7 @@ namespace Cherry{
 
     private:
         uint32_t m_BufferID = 0;
+        size_t m_VertexAttribCount = 0;
 
         std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
         std::shared_ptr<IndexBuffer> m_IndexBuffer;

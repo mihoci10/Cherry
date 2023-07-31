@@ -43,8 +43,8 @@ namespace Cherry{
                 case Cherry::BufferDataType::UINT_32:
                 case Cherry::BufferDataType::INT_64:
                 case Cherry::BufferDataType::UINT_64:
-                    glEnableVertexAttribArray(static_cast<GLuint>(m_VertexBuffers.size()));
-                    glVertexAttribIPointer(static_cast<GLuint>(m_VertexBuffers.size()),
+                    glEnableVertexAttribArray(static_cast<GLuint>(m_VertexAttribCount));
+                    glVertexAttribIPointer(static_cast<GLuint>(m_VertexAttribCount),
                         segment.count,
                         BufferTypeConvert(segment.dataType),
                         vertexBuffer->GetDescriptor().GetSize() - segment.GetSize(),
@@ -52,8 +52,8 @@ namespace Cherry{
                     break;
                 case Cherry::BufferDataType::FLOAT:
                 case Cherry::BufferDataType::DOUBLE:
-                    glEnableVertexAttribArray(static_cast<GLuint>(m_VertexBuffers.size()));
-                    glVertexAttribPointer(static_cast<GLuint>(m_VertexBuffers.size()),
+                    glEnableVertexAttribArray(static_cast<GLuint>(m_VertexAttribCount));
+                    glVertexAttribPointer(static_cast<GLuint>(m_VertexAttribCount),
                         segment.count,
                         BufferTypeConvert(segment.dataType),
                         segment.normalized ? GL_TRUE : GL_FALSE,
@@ -61,6 +61,8 @@ namespace Cherry{
                         (const void*)segment.offset);
                     break;
             }
+
+            m_VertexAttribCount++;
         }
 
         m_VertexBuffers.push_back(vertexBuffer);
